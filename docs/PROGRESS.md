@@ -6,24 +6,25 @@
 > 설계 캐논: `docs/architecture/SoulBound_Phase1_MVP_BuildPlan_v1.3-FROZEN.md`(동결).
 > UI/UX 변경 추적: `docs/UIUX_CHANGELOG.md`. 운영 루프: `docs/WORKFLOW.md`.
 
-- **현재 단계**: **P0 MVP 기능 + 하드닝 완성** (Task 1–9 완료). RC staging 검증 완료. **`v0.1.0-rc.2` 태그됨 @ `e517ec3`**. Pre-alpha UI/UX polish 최종 독립검토 PASS(`3bd68f2`, verdict 기록 `0efd237`). 2026-06-18 design pass + PWA `ac62201`도 최종 독립검토 PASS(acceptable for pre-alpha); push/deploy 전 host-only runtime gate만 남음.
-- **다음 단계**: internal alpha 운영. public/non-alpha 전 reaper 자동화(Task 9a-2) 재평가.
+- **현재 단계**: **P0 MVP 기능 + 하드닝 완성** (Task 1–9 완료). RC staging 검증 완료. **`v0.1.0-rc.2` 태그됨 @ `e517ec3`**. Pre-alpha UI/UX polish 최종 독립검토 PASS(`3bd68f2`, verdict 기록 `0efd237`). 2026-06-18 design pass + PWA `ac62201`도 최종 독립검토 PASS(acceptable for pre-alpha). **Member shell nav consolidation 최종 독립검토 PASS(`23ce4b6`, 문서 동기화 `1833541`)** — push/deploy 전 host-only runtime gate만 남음.
+- **진행 중 (P0 이후 첫 real feature)**: **Profile / Pseudonymous Persona Tier A** — brief 커밋(`de52673`) + Codex Step-2 plan **조건부 승인**(Cowork). **빌드 미시작**(candidate SHA 없음). §2 표 참조.
+- **다음 단계**: profile Tier A 빌드 → Cowork full 독립감사 → JT 커밋. 병행: internal alpha 운영(public/non-alpha 전 reaper 자동화 Task 9a-2 재평가).
 - **현재 브랜치**: `phase1-p0-mvp`
 - **검증 환경**: Node 24 / pnpm 11.1.3
-- **요약 갱신일**: 2026-06-18 (KST)
+- **요약 갱신일**: 2026-06-22 (UTC)
 
 ---
 
 ## 1. 한눈에 보는 현황 (Snapshot)
 
-현재 작업 트리(`phase1-p0-mvp` 병합 기준)에서 이 세션이 직접 재실행해 확인한 게이트:
+현재 작업 트리(`phase1-p0-mvp` HEAD `de52673`)에서 이 세션이 직접 재실행해 확인한 게이트:
 
 | 게이트 | 결과 | 비고 |
 | --- | --- | --- |
 | `pnpm -r typecheck` | ✅ CLEAN | core / adapters / web 3개 프로젝트 |
 | `pnpm -F @soulbound/core test` | ✅ 20 passed | Task 9b에서 19→20 (INV-16 outbox payload lock) |
 | `pnpm -F @soulbound/adapters test` (unit) | ✅ 22 passed | |
-| `pnpm -F web test` (unit) | ✅ 44 passed | 10 파일 |
+| `pnpm -F web test` (unit) | ✅ 64 passed | 13 파일 (member shell nav에서 44→64, `site-header.test.tsx` 등 추가) |
 | `bash scripts/audit.sh` | ✅ PASSED | apps/supabase 검사 전부 활성·OK (더 이상 SKIP 아님) |
 
 > Docker 의존 게이트(Supabase 통합/`pgTAP`)는 이 세션에서 실행하지 않았다. `PROJECT_STATE.md` 기준
@@ -52,6 +53,8 @@
 | Pre-alpha UI/UX polish | early-KakaoTalk-like member shell (`멤버/대화/더보기`) + public/auth/gate/apply/status copy polish | ✅ 완료 (Opus/Cowork 최종 PASS) | `PROJECT_STATE.md`, `docs/UIUX_CHANGELOG.md`, `3bd68f2`, `0efd237` |
 | Pre-alpha design pass + PWA | warm terracotta visual pass + UI primitives + PWA manifest/icons/install prompt/SW + applicant status privacy lock | ✅ final audit PASS (`ac62201`, host runtime gate pending before push/deploy) | `docs/DESIGN_PASS_BRIEF.md`, `docs/DESIGN_PASS_PLAN.md`, `docs/UIUX_CHANGELOG.md`, `PROJECT_STATE.md` |
 | 9a / 9b | persona-clip byte-delete worker + audit/outbox 하드닝 lock | ✅ 완료 | TASK9A_*, TASK9B_* |
+| Member shell nav consolidation | 헤더 3-state(브랜드-only/`/member`→null) + More=northstar 전체 스캐폴드 + ListRow grid→flex 버그수정 + 하단 탭 아이콘화 | ✅ 최종 독립검토 PASS (surface, 보호표면 0-diff) | `docs/MEMBER_SHELL_NAV_BRIEF.md`, `23ce4b6`, `1833541` |
+| Profile / Persona Tier A | 가명 텍스트 persona 보기+편집(handle/display_name/bio·사진 0·AI 0) + 탭 icon-only | 🔵 진행 중 — brief `de52673` + Step-2 plan 조건부 승인, **빌드 미시작** | `docs/PROFILE_PERSONA_BRIEF.md` |
 | 9a-2 | internal cron reaper route | ⏳ deferred | (잔여) |
 | 10 | external ledger PoC (옵션, 별도 브랜치) | ⛔ 미착수 (의도적 보류) | — |
 
@@ -80,7 +83,9 @@
 - 🟡 **Pre-alpha design pass + PWA host-only runtime gate** — Android Chrome/Samsung Internet/iOS Safari install smoke, Lighthouse PWA installable, 9-screen visual eyeball.
 - 🟡 **SW drift-guard test 강화(P2)** — 현재 SW는 안전하나 shipped `sw.js` 동기화 테스트가 문자열 기반이라 구조/행동형 테스트로 후속 강화.
 - 🟡 **full primitive reskin 잔여** — `/login`, `/signup`, `/gate`, `/apply` 등 구 shell 페이지를 후속 design pass에서 `components/ui/*` 기반으로 완성.
-- ⛔ **[다음 라운드 Northstar]** privacy ledger 선택(Zcash ZSA / Aleo / Aztec) + ICP 앱체인 — P0 계약 아님. `LedgerPort` 추상 경계가 이미 수용.
+- 🟡 **Member shell nav host-only 육안 스모크** — `/member` 단일 헤더·탭 아이콘·More 스캐폴드·ListRow 비-truncation·`/gate` 로그아웃. (sandbox 브라우저 부재로 JT 호스트 1회.)
+- 🔵 **Profile Persona Tier A (진행 중)** — design 결정 락(기록은 `docs/PROFILE_PERSONA_BRIEF.md`): persona = 가명 자기저작(handle/display_name/bio)·**사진 0(입장 후 피어-익명성 불변식, INV-PC-09 정합)**·**AI authorship 제외**(진정성/동질화/lean-privacy 근거, 무기한 보류)·persona ⟂ admission dossier. Tier A 빌드 후 Cowork full 독립감사 대기. 후속 layer: 아바타 업로드(영구 제외)·taste tags(C)·온체인(Task 10 후).
+- ⛔ **[다음 라운드 Northstar]** privacy ledger 선택(Zcash ZSA / Aleo / Aztec) + ICP 앱체인 — P0 계약 아님. `LedgerPort` 추상 경계가 이미 수용. AI persona authoring = `AIPort`(LedgerPort와 동일 취급: core port / main Noop / branch+flag) — 무기한 보류.
 
 ---
 
@@ -104,7 +109,7 @@ pnpm install
 pnpm -r typecheck                    # 3 projects CLEAN
 pnpm -F @soulbound/core test         # 20 passed
 pnpm -F @soulbound/adapters test     # 22 passed (unit)
-pnpm -F web test                     # 44 passed (unit)
+pnpm -F web test                     # 64 passed (unit)
 bash scripts/audit.sh                # AUDIT PASSED (apps/supabase 검사 활성)
 
 # Docker(Supabase 로컬) 필요 — 호스트 전용 결정성 게이트:
@@ -119,5 +124,6 @@ pnpm -F @soulbound/adapters clip:reap   # persona-clip reaper CLI (manual)
 
 | 일자 | 변경 |
 | --- | --- |
+| 2026-06-22 | `phase1-p0-mvp` HEAD(`de52673`) 기준 갱신. **member shell nav consolidation(`23ce4b6`) PASS** + web test **44→64** 반영, **Profile Persona Tier A** 진행 중(brief `de52673` + plan 조건부 승인, 빌드 미시작) 등재 및 design 결정(사진 0 익명성·AI 제외) 기록. 현재 트리에서 typecheck/core 20/adapters 22/web 64/audit 재검증. |
 | 2026-06-18 | `phase1-p0-mvp` 최신 HEAD(`0efd237`) 기준으로 pre-alpha UI/UX polish 최종 독립 PASS(`3bd68f2`)를 반영. PR 브랜치를 최신 base 위로 rebase하고 `docs/UIUX_CHANGELOG.md`와 정합화. |
 | 2026-06-17 | `phase1-p0-mvp` 현재 진실 기준으로 재작성. 이전 `main`(freeze 991dc5d) 기준 초안은 stale이라 폐기·교체. 현재 트리에서 typecheck/core 20/adapters 22/web 44/audit 게이트 재검증. `PROJECT_STATE.md` 종속 요약으로 명시. |

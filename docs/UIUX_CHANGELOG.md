@@ -6,8 +6,8 @@
 > 작업 진척도 전반: `docs/PROGRESS.md`. 설계 캐논: `docs/architecture/SoulBound_Phase1_MVP_BuildPlan_v1.3-FROZEN.md`.
 
 - **현재 상태**: `apps/web` **구축 완료** (Task 8a/8b 완료). P0 happy-path 화면 전체 존재. **RC-2(`v0.1.0-rc.2 @ e517ec3`) validated staging** 이후 pre-alpha UI/UX polish 최종 독립검토 PASS(`3bd68f2`, verdict 기록 `0efd237`). 2026-06-18 design pass + PWA `ac62201` 최종 독립검토 PASS, warm typography/ambient pass `e522b04` PASS, member shell nav consolidation `23ce4b6` PASS.
-- **다음 단계**: internal alpha. Members placeholder를 실데이터로 연결할 때는 새 API route + service 경유(HARD RULE 1)로만 진행.
-- **마지막 갱신**: 2026-06-19 (KST)
+- **다음 단계**: **Profile / Persona Tier A** 빌드(진행 중 — 가명 텍스트 persona 보기+편집 + 탭 icon-only; brief `de52673`, plan 조건부 승인, 빌드 미시작). Members placeholder를 실데이터로 연결할 때는 새 API route + service 경유(HARD RULE 1)로만 진행.
+- **마지막 갱신**: 2026-06-22 (UTC)
 - **브랜치**: `phase1-p0-mvp`
 
 ---
@@ -121,6 +121,8 @@ UI/UX를 건드릴 때 매번:
 
 ## 6. 알려진 UX 후속 (Known Follow-ups)
 
+- 🔵 **Profile / Persona Tier A (진행 중, 빌드 미시작)** — `/member`에 가명 텍스트 persona 보기+편집(handle/display_name/bio) + 하단 탭 **icon-only**(aria-label 유지). design 결정 락(증적 `docs/PROFILE_PERSONA_BRIEF.md`): **사진/아바타 영구 0**(입장 후 피어-익명성 불변식, persona-clip 파기 INV-PC-09 정합·이니셜/모노그램 마크만)·**AI authorship 제외**·persona ⟂ admission dossier·구조적 no-photo(`avatar_url` write 경로 0)·no-leak(role/wallet/email/id 0)·own-only·handle 409. Tier A 빌드 후 Cowork full 독립감사 → 빌드되면 §1/§2/§4 갱신.
+- 🟡 **Member shell nav host-only 육안 스모크** (non-블로커): `/member` 단일 헤더·탭 아이콘·More 스캐폴드·ListRow leading-없는 행 비-truncation·`/gate` 로그아웃·anon 설치.
 - ⏳ **Safari persona-clip 호환성 스모크** (non-블로커). 미지원 시 graceful **PC-01 degradation**(클립 없이 제출).
 - 🟡 2026-06-18 design pass + PWA host-only runtime gate: Android Chrome/Samsung Internet/iOS Safari install smoke, Lighthouse PWA installable, 9-screen visual eyeball.
 - 🟡 SW drift-guard test 강화: 현재 SW는 안전하나 shipped `sw.js` 동기화 테스트가 문자열 기반이라 구조/행동형 테스트로 후속 강화.
