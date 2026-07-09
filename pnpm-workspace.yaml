@@ -7,4 +7,4 @@ engineStrict: true
 minimumReleaseAge: 1440
 blockExoticSubdeps: true
 allowBuilds:
-  esbuild: set this to true or false
+  esbuild: false
