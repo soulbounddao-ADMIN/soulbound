@@ -347,8 +347,7 @@ JT 귀환 시 이월 유지 — 완료 전까지 staging의 투표/게시판/재
 것을 원칙" — 제1조 원칙 선언 + 제2조 "복구에 쓸 정보 자체를 갖지 않습니다" + 제7조 미수집 정보 선행 구조.
 ("어떤 정보도 저장 안 함" 문구는 거짓 약속이라 배제 — 게시글/가명 아이디/감사 기록은 저장.) **게이트**(Cowork
 독립 재실행): typecheck·web 111/111·`/terms` 정적(○) 빌드·audit.sh·diff-check·boundary 4파일 외 0-diff. 감사
-1차에서 보충 미반영 2건(prose 타이포·metadata) 적발→수정 후 표적 재확인 PASS. ⚠️ **public 전 법률 검토 필수**
-(개인영상정보·처리방침 분리 — 브리프 §6 이월). **배포 잔여(Codex)**: 커밋 → push → Vercel(프론트 전용, DB 무관).
+1차에서 보충 미반영 2건(prose 타이포·metadata) 적발→수정 후 표적 재확인 PASS. 당시 기록: public 전 법률 검토가 과제로 남아 있었다(개인영상정보·처리방침 분리 — 브리프 §6). 처리방침은 2026-10-06 소유자 결정으로 정식본이 되었다(아래 항목). **배포 잔여(Codex)**: 커밋 → push → Vercel(프론트 전용, DB 무관).
 
 추가 갱신(2026-10-06, PWA finish — fork 브랜치 `zcode/pwa-finish-2026-10-06`, **감사 전/미승인**): manifest
 (`lang`/`dir`/`orientation`/`categories`, 아이콘 `purpose:"any"` 명시, maskable 192 추가·maskable 512 full-bleed
@@ -372,9 +371,10 @@ Android 경고 진단: `docs/pwa/android-install-warning.md`. 실기기 설치 �
 clip 바이트 삭제; prepare는 `account.deletion_requested`, auth 사용자 삭제 후에만 `complete_account_deletion`이
 `account.deleted`를 hash-chain에 추가; 투표 turnout 비식별 보존), `reports`(0002 빈 legacy 테이블 교체, 본인 행만 RLS,
 reviewer/admin 큐는 `list_reports_for_review`만 — `reporter_id` SELECT 없음, 중복 open 차단, DB 10건/시간 제한, 해결 시
-audit enum reasonCode), `blocks`(RLS own-only, insert는 active member, board/members 서버 필터), `/privacy`
-초안(법률 검토 전), `/admin/reports`, 모바일 배선. 상세·보존 매트릭스·프로덕션 적용 절차: docs/store-compliance/IMPLEMENTATION_NOTES.md.
-독립 감사 + 법률 검토 전에는 프로덕션 마이그레이션 금지.
+audit enum reasonCode), `blocks`(RLS own-only, insert는 active member, board/members 서버 필터), `/admin/reports`, 모바일 배선. `/privacy`는 같은 날 정식본으로 확정(다음 항목). 상세·보존 매트릭스·프로덕션 적용 절차: docs/store-compliance/IMPLEMENTATION_NOTES.md.
+독립 감사 전에는 프로덕션 마이그레이션 금지. `/privacy` 법률 검토는 2026-10-06 정식본 확정으로 더 이상 조건이 아니다.
+
+추가 갱신(2026-10-06, 개인정보 처리방침 정식본): JunTae 2026-10-06: 법률 검토 생략하고 정식본 확정. `apps/web/app/privacy/page.tsx`는 초안 배너와 법률 검토 TODO를 제거한 정식 개인정보 처리방침이다. 시행일 2026년 10월 6일. 처리 항목·보유·파기는 코드와 마이그레이션(0014 계정 삭제 시 즉시 삭제 / 연결 해제 / audit_logs·vote turnout의 끊긴 UUID, Persona Clip reap, 승인·거절 시 신청 본문 파쇄)에 맞춘다. 연락 이메일은 `NEXT_PUBLIC_PRIVACY_CONTACT_EMAIL`(비우면 `soulbound.dao@gmail.com`, `apps/web/app/privacy/contact.ts`). 소유자가 채울 항목: 법인명·사업자등록번호·주소·전화·기명 보호책임자(저장소에 없어 "SOULBOUND 운영팀"만 표기), Supabase 리전(미기재 → "제공자가 운영하는 해외 리전"), 호스팅 접속 로그 보관 기간(제공자 정책). 실이메일 수집·발송 코드가 없어 SMTP/Resend는 수탁자로 적지 않았다(가입은 `아이디@soulbound.internal`, 확인 메일이 켜져 있으면 가입이 실패). 과거 RC-1 문서의 Resend·`noreply@soulbound.co.kr`은 현재 가입 경로에서 쓰이지 않는다.
 
 ## 0. 한 줄 요약
 

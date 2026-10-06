@@ -1,4 +1,4 @@
-# Store compliance — account deletion / reports / blocks / privacy draft
+# Store compliance — account deletion / reports / blocks / privacy policy
 
 > **감사 전/미승인.** Builder output on `devin/store-compliance-api-2026-10-06` (PR #7, base `3eb533a`).
 > Independent audit has not happened yet.
@@ -42,7 +42,7 @@ filter lives in RLS / the board RPCs that those routes already call:
   comments inside the detail (`list_board_comments`) — blocked authors are excluded.
 - `GET /api/members` — restrictive RLS on `profiles` hides blocked members from the user-scoped directory read.
 
-Web UI: `/admin/reports` (reviewer/admin list + one-click enum resolution), `/privacy` (draft), links from
+Web UI: `/admin/reports` (reviewer/admin list + one-click enum resolution), `/privacy` (final, effective 2026-10-06), links from
 `/signup` consent and `/terms`.
 
 Code layout (route → service → repository → adapter):
@@ -107,7 +107,7 @@ the old access token no longer resolves, so a failed step 5 is repaired by the s
 | `evidence_files`, `soul_balances`, `user_intent_authorizations` | user FKs | **Deleted** (cascade) | schema-only |
 | `soul_ledger_events`, `slash_cases` | user FKs | **Anonymized** (set null, pre-existing) | schema-only ledger/case history |
 
-Legal TODO: confirm the retention period/legal basis for `audit_logs`, closed `reports` and turnout rows.
+Retention (JunTae 2026-10-06: legal review waived, policy finalized): de-identified `audit_logs`, `reports`, and unlinked turnout rows are kept for as long as the service operates so the hash chain and vote tallies stay verifiable. No shorter period is coded.
 
 ## Tables, RLS and migration
 
@@ -195,8 +195,7 @@ Security-review follow-up (same day) re-ran `pnpm -r typecheck`, adapters unit t
 
 ## Remaining blockers
 
-1. `/privacy` is a **draft** — legal review required (TODO items: retention periods, overseas transfer/region,
-   privacy officer + contact, rights procedure, effective date).
+1. `/privacy` is **final** (effective 2026-10-06; JunTae waived legal review). Contact email is `NEXT_PUBLIC_PRIVACY_CONTACT_EMAIL` (default `soulbound.dao@gmail.com`). Operator legal name, registration number, address, phone, and a named officer are not in the repo. Supabase region is not documented.
 2. Moderation SLA: Apple 1.2 expects timely action on reports; an operator routine for `/admin/reports` (e.g. daily)
    must be defined. No notification is sent on new reports (NotificationPort unchanged, no push).
 3. "Content removed" resolution records the decision only; actual removal uses the existing admin board delete
@@ -208,9 +207,10 @@ Security-review follow-up (same day) re-ran `pnpm -r typecheck`, adapters unit t
 1. Review/audit this branch, then apply `0014_store_compliance.sql` to production Supabase
    (`supabase db push` against the linked project). It aborts if legacy `public.reports` has rows — check
    `select count(*) from public.reports;` first.
-2. Web env is unchanged (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+2. Web env adds optional `NEXT_PUBLIC_PRIVACY_CONTACT_EMAIL` (empty means `soulbound.dao@gmail.com`).
+   Existing keys stay (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
    `SUPABASE_SERVICE_ROLE_KEY` — the service-role key is required by `DELETE /api/account`). Redeploy Vercel.
 3. Mobile: `EXPO_PUBLIC_API_BASE_URL` = deployed web origin; `EXPO_PUBLIC_PRIVACY_POLICY_URL` optional override.
-   App Store Connect privacy URL = `<web origin>/privacy` after legal sign-off.
-4. Get legal review of `/privacy` and remove the draft banner only after sign-off.
+   App Store Connect privacy URL = `<web origin>/privacy`.
+4. `/privacy` is the final text. Set `NEXT_PUBLIC_PRIVACY_CONTACT_EMAIL` only if the default `soulbound.dao@gmail.com` should not be published.
 5. Assign reviewer/admin accounts to process `/admin/reports`.

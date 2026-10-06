@@ -18,7 +18,7 @@ Stack: Expo SDK 57 (`expo ~57.0.26`), React Native 0.86.3, React 19.2.3, expo-ro
 | P1 auth | **Done** | `/` landing + session restore, `/login`, `/signup` (terms consent required, terms + privacy links), sign out (Settings), role routing (`resolveHomeRoute`: reviewer/admin → `/reviewer`, member or active membership → `/member`, else `/gate`), `/gate` |
 | P2 applicant | **Done (without Persona Clip)** | `/apply` (statement, idempotency key reused across retries), `/apply/status` (status badge, reviewer notice, needs-more-info resubmit with idempotency key, 409 → reload) |
 | P3 member | **Done** | `/member` tabs: 멤버 (membership + directory with paging), 투표 (list), 게시판 (list + create), 더보기 (settings); `/vote/[voteId]` (detail, cast yes/no, 409 handling, results when closed); `/board/[postId]` (detail, comments, add comment, delete own post/comment). Edit is not offered because the web/API has no edit endpoint. |
-| P4 settings / store | **Done (backend wired; privacy text is a draft)** | `/settings` (+ member 더보기): sign out, privacy policy link (default `${API_BASE_URL}/privacy`), terms link (web `/terms`), server-backed block list with unblock (`/api/blocks`, secure-store optimistic cache), 계정 삭제 confirmation → `DELETE /api/account` → sign out, app version. Report menu on posts, comments, directory members → reason picker + optional text (iOS `Alert.prompt`) → `POST /api/reports`. |
+| P4 settings / store | **Done (backend wired; privacy policy is the final web page)** | `/settings` (+ member 더보기): sign out, privacy policy link (default `${API_BASE_URL}/privacy`), terms link (web `/terms`), server-backed block list with unblock (`/api/blocks`, secure-store optimistic cache), 계정 삭제 confirmation → `DELETE /api/account` → sign out, app version. Report menu on posts, comments, directory members → reason picker + optional text (iOS `Alert.prompt`) → `POST /api/reports`. |
 | P5 reviewer/admin | **Not done** | `/reviewer` only shows a notice + link to web `/admin/applications`. |
 
 Persona Clip: **not implemented on mobile.** Strict INV-PC rules (in-app capture only, no library/preview/retake/edit) plus the existing `/api/admission/persona-clip` upload contract would require adding a camera/recording module and an upload pipeline that has not been audited; the apply flow ships without it (clip is optional, absence never blocks submit). No camera/microphone usage strings are declared. Vote-detail clip playback is also web-only.
@@ -45,7 +45,7 @@ Not used: `/api/admission/persona-clip`, `/api/vote/applications/{voteId}/person
 
 ## BLOCKERS
 
-1. `/privacy` is a draft pending legal review (see `docs/store-compliance/IMPLEMENTATION_NOTES.md`).
+1. `/privacy` is the final policy (effective 2026-10-06; owner waived legal review). Register the deployed URL in App Store Connect. See `docs/store-compliance/IMPLEMENTATION_NOTES.md`.
 2. Production Supabase must get migration `0014_store_compliance.sql` and the web must be redeployed before the in-app deletion/report/block calls work; reports need an operator routine at web `/admin/reports`.
 3. Store-compliance backend: done on `devin/store-compliance-api-2026-10-06` (account deletion, reports, blocks).
 4. Persona Clip recording/playback not implemented on mobile.

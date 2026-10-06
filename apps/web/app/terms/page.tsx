@@ -174,7 +174,7 @@ export default function TermsPage() {
         </section>
       </article>
       <p className="prose-text">
-        관련 문서: <Link href="/privacy">개인정보 처리방침 (초안)</Link>
+        관련 문서: <Link href="/privacy">개인정보 처리방침</Link>
       </p>
     </main>
   );

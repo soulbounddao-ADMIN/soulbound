@@ -2,6 +2,7 @@
 
 > **Step 1 of the loop** (설계 Cowork → 계획 Codex → 계획검토·보충 Cowork → 빌드 Codex → 검토 Cowork → 수정 Codex → 최종검토 Cowork → 커밋/푸시/디플로이 Codex). **Builder ≠ approver.**
 > **SURFACE / fast loop.** 백엔드·스키마·payload 무변경. 정적 약관 페이지 1개 + signup 동의 체크박스만.
+> 후속(2026-10-06): 개인정보 처리방침은 소유자 결정으로 법률 검토 없이 `/privacy` 정식본이 되었다. 아래 법률 검토 경고는 당시 약관 초안에 대한 기록이다.
 > ⚠️ **알파 한정 초안**: public/non-alpha 전에 법률 검토 필수(특히 개인영상정보·개인정보 처리방침 분리). 이 초안은
 > "정직한 고지" 우선이며 법적 완결성을 주장하지 않는다.
 

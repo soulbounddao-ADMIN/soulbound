@@ -71,7 +71,7 @@ eas submit -p ios --profile production   # App Store Connect 업로드 → TestF
 
 ## App Store 제출 체크리스트
 
-- [ ] 개인정보 처리방침 URL — 웹 `/privacy` **초안** 있음(앱 설정/가입 화면 연결됨). **법률 검토 후** App Store Connect에 등록
+- [ ] 개인정보 처리방침 URL — 웹 `/privacy` **정식본**(시행 2026-10-06, 앱 설정/가입 화면 연결됨). 배포된 URL을 App Store Connect에 등록
 - [x] 앱 내 계정 삭제 (설정 → 계정 삭제 → `DELETE /api/account` → 로그아웃) — 프로덕션 DB에 0014 마이그레이션 적용 필요
 - [x] UGC 신고/차단 (게시글·댓글·멤버) — `POST /api/reports`(사유 선택 + 선택 설명), `/api/blocks`(서버 저장·서버 필터) / 운영자 처리 루틴(`/admin/reports`) 필요
 - [ ] 심사용 데모 계정(활성 멤버 1개) + 리뷰 노트(아이디/비밀번호, 입장 절차 설명)
@@ -82,7 +82,7 @@ eas submit -p ios --profile production   # App Store Connect 업로드 → TestF
 
 ## Known BLOCKERS
 
-1. **개인정보 처리방침은 초안.** 웹 `/privacy`는 "초안 — 법률 검토 전"으로 표시되어 있고 TODO 항목(보관 기간, 국외 이전, 책임자/연락처, 시행일)이 남아 있다.
+1. **개인정보 처리방침은 정식본.** 웹 `/privacy`(시행 2026-10-06). App Store Connect에는 배포된 URL을 등록하면 된다. 연락 이메일은 `NEXT_PUBLIC_PRIVACY_CONTACT_EMAIL`(비우면 `soulbound.dao@gmail.com`).
 2. **신고 처리 운영 루틴 필요.** 신고는 `/admin/reports`에서 reviewer/admin이 처리한다. 새 신고 알림은 없다(푸시 없음). Apple 1.2는 신속한 조치를 요구한다.
 3. **프로덕션 반영 필요.** `supabase/migrations/0014_store_compliance.sql`을 프로덕션 Supabase에 적용하고 웹을 재배포해야 앱의 삭제/신고/차단이 동작한다.
 4. **Persona Clip 녹화 미구현.** 신청은 Persona Clip 없이 가능(선택 항목). 투표 상세의 Persona Clip 재생도 웹에서만.
