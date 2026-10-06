@@ -91,6 +91,14 @@ export default function SignupPage() {
             >
               약관 보기
             </Link>
+            <Link
+              className="quiet-link"
+              href="/privacy"
+              rel="noreferrer"
+              target="_blank"
+            >
+              개인정보 처리방침 보기
+            </Link>
           </div>
           {message ? (
             <p

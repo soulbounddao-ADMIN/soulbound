@@ -362,7 +362,19 @@ persona-clip/`/admin`/`/apply`/`/gate`/`/member`)는 동일, bypass 요청은 `r
 network-only `no-store` → 실패 시 오프라인 페이지, 캐시 저장 0). 상세·게이트: `docs/pwa/IMPLEMENTATION_NOTES.md`,
 Android 경고 진단: `docs/pwa/android-install-warning.md`. 실기기 설치 스모크/Lighthouse 11 installability는 여전히 host-only.
 
+추가 갱신(2026-10-06, iPhone 앱 — fork 브랜치 `devin/ios-expo-app-2026-10-06`, **감사 전/미승인**): `apps/mobile`(`@soulbound/mobile`, Expo SDK 57 + expo-router) 신규. Supabase는 `apps/mobile/src/auth`에서만(아이디+비밀번호 인증·세션·`current_user_role`), 세션은 `expo-secure-store`, 데이터는 웹 `/api/*`만 Bearer 토큰으로 호출. P1 인증·P2 입장 신청/현황/보완 제출·P3 멤버(명부·게시판·투표) 완료, P4 설정(계정 삭제 진입·신고/차단·개인정보/약관 링크)은 클라이언트만 — **BLOCKER**: 백엔드 계정 삭제·신고/차단 API 없음, 웹 `/privacy` 없음. Persona Clip 모바일 녹화·P5 관리자 화면 미구현. 보호 영역·툴체인 파일 변경 0. 상세는 `docs/mobile/IMPLEMENTATION_NOTES.md`.
+
 ---
+
+추가 갱신(2026-10-06, App Store compliance backend — **감사 전/미승인**): JunTae 승인 2026-10-06: 보호 영역 개방 — 계정삭제/신고/차단
+(이번 태스크 한정: `apps/web/app/api`, 새 마이그레이션 `0014_store_compliance.sql`, `packages/adapters` 추가분; core 무변경).
+브랜치 `devin/store-compliance-api-2026-10-06`(PR #7, base `3eb533a` = PR #6). `DELETE /api/account`(service-role 삭제 + StoragePort 경로로
+clip 바이트 삭제; prepare는 `account.deletion_requested`, auth 사용자 삭제 후에만 `complete_account_deletion`이
+`account.deleted`를 hash-chain에 추가; 투표 turnout 비식별 보존), `reports`(0002 빈 legacy 테이블 교체, 본인 행만 RLS,
+reviewer/admin 큐는 `list_reports_for_review`만 — `reporter_id` SELECT 없음, 중복 open 차단, DB 10건/시간 제한, 해결 시
+audit enum reasonCode), `blocks`(RLS own-only, insert는 active member, board/members 서버 필터), `/privacy`
+초안(법률 검토 전), `/admin/reports`, 모바일 배선. 상세·보존 매트릭스·프로덕션 적용 절차: docs/store-compliance/IMPLEMENTATION_NOTES.md.
+독립 감사 + 법률 검토 전에는 프로덕션 마이그레이션 금지.
 
 ## 0. 한 줄 요약
 

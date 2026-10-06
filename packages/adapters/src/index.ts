@@ -57,9 +57,19 @@ export type {
   MarkOwnDraftForDeletionInput,
   PersonaClipUploadContract,
   PersonaClipUploadUrl,
+  PurgeOwnerPersonaClipsInput,
+  PurgeOwnerPersonaClipsResult,
   ReapDeletablePersonaClipsInput,
   ReapDeletablePersonaClipsResult,
 } from "./supabase/supabase-storage-adapter";
+export {
+  SupabaseAccountDeletionAdapter,
+  makeSupabaseAccountDeletionAdapter,
+} from "./supabase/supabase-account-deletion-adapter";
+export type {
+  AuthUserDeletionOutcome,
+  PreparedAccountDeletion,
+} from "./supabase/supabase-account-deletion-adapter";
 
 export {
   NoopLedgerAdapter,

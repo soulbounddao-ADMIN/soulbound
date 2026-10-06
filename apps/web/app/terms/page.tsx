@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export const metadata = { title: "이용약관" };
@@ -172,6 +173,9 @@ export default function TermsPage() {
           </p>
         </section>
       </article>
+      <p className="prose-text">
+        관련 문서: <Link href="/privacy">개인정보 처리방침 (초안)</Link>
+      </p>
     </main>
   );
 }

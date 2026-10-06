@@ -47,6 +47,15 @@ export interface ReapDeletablePersonaClipsInput {
   readonly limit?: number;
 }
 
+export interface PurgeOwnerPersonaClipsInput {
+  readonly ownerId: string;
+  readonly assetIds: readonly string[];
+}
+
+export interface PurgeOwnerPersonaClipsResult {
+  readonly deletedAssetIds: string[];
+}
+
 export interface ReapDeletablePersonaClipsResult {
   readonly scanned: number;
   readonly deleted: number;
@@ -296,6 +305,65 @@ export class SupabaseStorageAdapter implements StoragePort {
       failed,
       deletedAssetIds,
     };
+  }
+
+  // Account deletion: removes the owner's raw clip bytes now (fail-closed)
+  // using the same StoragePort mark + reaper eligibility path.
+  async purgeOwnerPersonaClips(
+    input: PurgeOwnerPersonaClipsInput,
+  ): Promise<PurgeOwnerPersonaClipsResult> {
+    const deletedAssetIds: string[] = [];
+
+    for (const assetId of input.assetIds) {
+      const { data: ownedData, error: ownedError } = await this.client
+        .from("persona_clip_assets")
+        .select("id, status")
+        .eq("id", assetId)
+        .eq("applicant_id", input.ownerId)
+        .maybeSingle();
+
+      throwIfSupabaseError(ownedError);
+      const owned = ownedData as { id?: string; status?: string } | null;
+      if (!owned?.id || owned.status === "deleted") {
+        continue;
+      }
+
+      await this.markForDeletion(owned.id);
+
+      const { data: currentData, error: currentError } =
+        await this.client.rpc("list_deletable_persona_clips", {
+          p_limit: 1,
+          p_asset_id: owned.id,
+        });
+
+      throwIfSupabaseError(currentError);
+      const [current] = (currentData ?? []) as DeletablePersonaClipRow[];
+      if (!current) {
+        throw dependencyFailure("persona clip not eligible for deletion", {
+          assetId: owned.id,
+        });
+      }
+
+      const { error: removeError } = await this.client.storage
+        .from(personaClipBucket)
+        .remove([current.storage_path]);
+
+      if (removeError) {
+        throw dependencyFailure("persona clip storage removal failed", {
+          assetId: current.id,
+        });
+      }
+
+      const { error: updateError } = await this.client.rpc(
+        "mark_persona_clip_deleted",
+        { p_asset_id: current.id },
+      );
+
+      throwIfSupabaseError(updateError);
+      deletedAssetIds.push(current.id);
+    }
+
+    return { deletedAssetIds };
   }
 }
 
