@@ -8,6 +8,7 @@ import type { ISODateString } from "../shared/types";
 
 export type AuditAction =
   | "application.submit"
+  | "application.resubmit"
   | "application.review_started"
   | "application.more_info_requested"
   | "application.approved"

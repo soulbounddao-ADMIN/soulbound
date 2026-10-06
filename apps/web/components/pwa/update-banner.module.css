@@ -1,0 +1,38 @@
+.updateBanner {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  left: 16px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 10px 12px 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.updateButton {
+  flex: none;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--surface);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.updateButton:hover {
+  background: var(--accent-pressed);
+}

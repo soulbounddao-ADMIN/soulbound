@@ -1,0 +1,315 @@
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.28fr) minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.selectInput,
+.decisionPanel select,
+.decisionPanel textarea {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+
+.selectInput,
+.decisionPanel select {
+  min-height: 42px;
+  padding: 0 12px;
+}
+
+.quickFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filterChip {
+  min-height: 38px;
+  padding-inline: 12px;
+}
+
+.queueCount {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.queueTable {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+}
+
+.queueTable th,
+.queueTable td {
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.queueTable th {
+  background: var(--surface-oat);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.queueTable tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.queueTable tbody tr:hover {
+  background: var(--surface-sunken);
+}
+
+.idCell {
+  display: flex;
+  max-width: 220px;
+  align-items: center;
+  gap: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+}
+
+.idCell span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.copyButton {
+  flex: 0 0 auto;
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-sunken);
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+}
+
+.clipMarker {
+  color: var(--accent-text);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.rowLinkButton {
+  min-height: 34px;
+  padding-inline: 11px;
+  font-size: 13px;
+}
+
+.permissionState {
+  border-left: 5px solid var(--danger);
+}
+
+.detailGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.sideColumn {
+  display: grid;
+  gap: 16px;
+}
+
+.dossierSection,
+.detailSection,
+.actionSection {
+  background: var(--surface);
+}
+
+.detailList {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.dossierSection .detailList,
+.detailSection .detailList {
+  padding: 16px 18px 18px;
+}
+
+.detailList div {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.28fr) minmax(0, 1fr);
+  gap: 18px;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+
+.detailList div:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.detailList dt {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.detailList dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+
+.internalNote {
+  border-left: 4px solid var(--accent);
+  background: var(--surface-oat);
+}
+
+.clipBlock {
+  display: grid;
+  gap: 14px;
+  padding: 16px 18px 18px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.clipVideo {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  background: var(--ink);
+}
+
+.actionSection {
+  background: var(--surface-oat);
+}
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 18px;
+}
+
+.decisionPanel {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+.decisionSelector {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.decisionSelector legend {
+  margin-bottom: 8px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.decisionOptions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.decisionOptions label {
+  display: grid;
+  cursor: pointer;
+}
+
+.decisionOptions input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.decisionOptions span {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.decisionOptions input:checked + span {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: white;
+}
+
+.noteGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.applicantNoticeField,
+.internalNoticeField {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.internalNoticeField {
+  border-color: rgba(217, 119, 87, 0.36);
+  background: var(--surface-oat);
+}
+
+.decisionPanel textarea {
+  min-height: 92px;
+  resize: vertical;
+  padding: 10px 12px;
+  line-height: 1.5;
+}
+
+.actionMessage {
+  margin: 0 0 16px;
+  color: var(--accent-text);
+  font-weight: 500;
+}
+
+@media (max-width: 860px) {
+  .detailGrid,
+  .noteGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .detailList div {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .decisionOptions {
+    grid-template-columns: 1fr;
+  }
+}

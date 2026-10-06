@@ -230,6 +230,69 @@ describe("AdmissionService.approveApplication", () => {
     // the atomic approval committed before the side effect was attempted
     expect(m.admissionRepo.approveApplicationTx).toHaveBeenCalledTimes(1);
   });
+
+  it("INV-16: the outbox payload carries ids/refs only — no free-text or PII", async () => {
+    const applicantStatement = "private applicant statement";
+    const motivation = "private applicant motivation";
+    const reviewSummary = "private reviewer summary";
+    const applicantNotice = "private applicant notice";
+    const storagePath = "user-1/private/persona-clip.webm";
+    const forbiddenValues = [
+      applicantStatement,
+      motivation,
+      reviewSummary,
+      applicantNotice,
+      storagePath,
+    ];
+    const application = makeApplication({
+      status: "under_review",
+      applicantStatement,
+      motivation,
+      reviewSummary,
+      applicantNotice,
+      personaClipHash: storagePath,
+    });
+    const m = createMocks({
+      application,
+      flags: { ...featureFlags, externalLedgerEnabled: true },
+    });
+    const svc = new DefaultAdmissionService(m.deps);
+    const cmd = {
+      ...decision(reviewer),
+      idempotencyKey: "idem-inv-16",
+    };
+
+    const res = await svc.approveApplication(cmd);
+
+    expect(isOk(res)).toBe(true);
+    expect(m.outboxRepo.enqueue).toHaveBeenCalledTimes(1);
+
+    const event = (m.outboxRepo.enqueue.mock.calls[0]?.[0] ?? {}) as Record<
+      string,
+      unknown
+    >;
+    const payload = event.payload as Record<string, unknown>;
+    expect(Object.keys(payload).sort()).toEqual([
+      "applicationId",
+      "membershipId",
+      "policyVersion",
+      "userId",
+    ]);
+    expect(payload).toEqual({
+      applicationId: "app-1",
+      membershipId: "mem-1",
+      userId: "user-1",
+      policyVersion: application.policyVersion,
+    });
+
+    const serializedPayload = JSON.stringify(payload);
+    expect(serializedPayload).not.toContain("storage_path");
+    for (const forbiddenValue of forbiddenValues) {
+      expect(serializedPayload).not.toContain(forbiddenValue);
+    }
+    expect(event.target).toBe("external_ledger");
+    expect(event.idempotencyKey).toBe(cmd.idempotencyKey);
+  });
 });
 
 describe("AdmissionService.rejectApplication", () => {

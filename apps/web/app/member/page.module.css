@@ -1,0 +1,313 @@
+.memberPage {
+  width: min(100%, 760px);
+  padding-top: clamp(16px, 4vw, 28px);
+}
+
+.memberShell {
+  display: grid;
+  gap: 16px;
+}
+
+.appShell {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-height: min(760px, calc(100svh - 118px));
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--elevate);
+}
+
+.phoneTop {
+  display: flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--surface-oat);
+}
+
+.phoneTop span:first-child {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.tabPanels {
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--canvas-lit);
+}
+
+.tabPanel,
+.quietPanel,
+.morePanel {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.moreList {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.directoryList {
+  display: grid;
+  overflow: hidden;
+  border-top: 1px solid var(--line-soft);
+  background: var(--surface);
+}
+
+.directoryState {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px 16px;
+  background: var(--surface);
+}
+
+.directoryActions {
+  display: flex;
+  justify-content: center;
+  padding: 14px 16px 16px;
+  border-top: 1px solid var(--line-soft);
+  background: var(--surface);
+}
+
+.boardComposer,
+.commentComposer {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  background: var(--surface);
+}
+
+.boardTextarea {
+  width: 100%;
+  min-height: 92px;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  line-height: 1.5;
+  padding: 12px;
+}
+
+.boardTextarea:focus {
+  border-color: var(--ink);
+  outline: 2px solid rgba(217, 119, 87, 0.18);
+  outline-offset: 2px;
+}
+
+.boardActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.boardActions span {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clipBlock {
+  display: grid;
+  gap: 12px;
+}
+
+.clipVideo {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  background: var(--ink);
+}
+
+.boardList {
+  display: grid;
+  overflow: hidden;
+  border-top: 1px solid var(--line-soft);
+  background: var(--surface);
+}
+
+.boardPostButton {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 5px 10px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 0;
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.boardPostButton:last-child {
+  border-bottom: 0;
+}
+
+.boardPostButton:hover,
+.boardPostButtonActive {
+  background: var(--surface-oat);
+}
+
+.boardPostMeta {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.boardPostBody {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--ink);
+  display: -webkit-box;
+  font-size: 15px;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.boardDetail {
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+  background: var(--surface);
+}
+
+.boardDetailHeader,
+.commentItem > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.boardDetailHeader p,
+.commentItem p {
+  margin: 0;
+}
+
+.boardDetailHeader p,
+.commentItem > div:first-child p {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.boardDetailHeader span,
+.commentItem span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.boardDetailBody {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-prose);
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.commentList {
+  display: grid;
+  gap: 10px;
+}
+
+.commentItem {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+  background: var(--canvas);
+}
+
+.commentItem > p {
+  color: var(--ink);
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.moreDisabledRow {
+  cursor: default;
+}
+
+.rowAction {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.rowAction:hover {
+  border-color: var(--ink);
+}
+
+.rowAction:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.notMember {
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.notMember h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.notMember p {
+  margin: 10px 0 22px;
+  color: var(--muted);
+  font-family: var(--font-prose);
+  line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+  .memberPage {
+    padding-inline: 12px;
+  }
+
+  .appShell {
+    min-height: calc(100svh - 102px);
+    border-radius: 16px;
+  }
+
+  .tabPanel,
+  .quietPanel,
+  .morePanel {
+    padding: 12px;
+  }
+}

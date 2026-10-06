@@ -38,7 +38,7 @@ export const featureFlags: FeatureFlags = {
   filecoinStorageEnabled: false,
   arweavePolicyArchiveEnabled: false,
   admissionOutboxEnabled: true,
-  auditHashChainEnabled: false, // columns exist, populated in P1
+  auditHashChainEnabled: true, // DB trigger active; app may verify-read the chain
   realtimeChatEnabled: false,
   aiInterviewEnabled: false,
   personaClipRecordingEnabled: true,

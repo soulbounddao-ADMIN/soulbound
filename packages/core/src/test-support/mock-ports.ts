@@ -102,6 +102,9 @@ export const createMocks = (opts: MockSetupOptions = {}): MockBundle => {
     submitApplicationTx: vi
       .fn()
       .mockResolvedValue(makeApplication({ status: "submitted" })),
+    resubmitApplicationTx: vi
+      .fn()
+      .mockResolvedValue(makeApplication({ status: "submitted" })),
     startReviewTx: vi
       .fn()
       .mockResolvedValue(makeApplication({ status: "under_review" })),

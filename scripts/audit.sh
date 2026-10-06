@@ -5,7 +5,13 @@ set -uo pipefail
 fail=0
 
 have() { command -v "$1" >/dev/null 2>&1; }
-GREP() { if have rg; then rg "$@"; else grep -rEn "$@"; fi; }
+GREP() {
+  if have rg; then
+    rg --glob '!**/.next/**' --glob '!**/dist/**' --glob '!**/node_modules/**' "$@"
+  else
+    grep -rEn --exclude-dir=.next --exclude-dir=dist --exclude-dir=node_modules "$@"
+  fi
+}
 
 # fail_if_match LABEL PATTERN PATH...
 fail_if_match() {

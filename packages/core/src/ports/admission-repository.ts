@@ -33,6 +33,13 @@ export interface SubmitApplicationTxInput {
   readonly idempotencyKey: string;
 }
 
+export interface ResubmitApplicationTxInput {
+  readonly applicationId: string;
+  readonly applicantId: string;
+  readonly applicantStatement?: string;
+  readonly idempotencyKey: string;
+}
+
 export interface DecisionTxInput {
   readonly applicationId: string;
   readonly actorId: string;
@@ -61,6 +68,7 @@ export interface AdmissionRepository {
 
   // ---- atomic state transitions (one rpc / one transaction each) ----
   submitApplicationTx(input: SubmitApplicationTxInput): Promise<AdmissionApplication>;
+  resubmitApplicationTx(input: ResubmitApplicationTxInput): Promise<AdmissionApplication>;
   startReviewTx(input: StartReviewTxInput): Promise<AdmissionApplication>;
   approveApplicationTx(input: DecisionTxInput): Promise<ApproveOutcome>;
   rejectApplicationTx(input: DecisionTxInput): Promise<AdmissionApplication>;

@@ -6,5 +6,8 @@ packages:
 engineStrict: true
 minimumReleaseAge: 1440
 blockExoticSubdeps: true
+
+# pnpm 11 build-script allowlist. esbuild is required by Vitest; sharp by Next.js.
 allowBuilds:
-  esbuild: set this to true or false
+  esbuild: true
+  sharp: true

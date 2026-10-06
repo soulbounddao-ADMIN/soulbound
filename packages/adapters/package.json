@@ -1,0 +1,27 @@
+{
+  "name": "@soulbound/adapters",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "clip:reap": "vite-node src/scripts/reap-persona-clips.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:integration": "vitest run -c vitest.integration.config.ts"
+  },
+  "dependencies": {
+    "@soulbound/core": "workspace:*",
+    "@supabase/supabase-js": "^2.49.10"
+  },
+  "devDependencies": {
+    "typescript": "5.6.3",
+    "vite-node": "2.1.8",
+    "vitest": "2.1.8"
+  }
+}

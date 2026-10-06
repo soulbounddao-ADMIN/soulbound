@@ -1,0 +1,90 @@
+.installPrompt {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.installButton {
+  min-height: 34px;
+  padding: 0 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.installButton:hover {
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.iosHelp {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 30;
+  width: min(260px, calc(100vw - 32px));
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.helpTitle {
+  margin: 0 0 6px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.helpText {
+  margin: 0 0 8px;
+}
+
+.helpSteps {
+  margin: 0 0 10px;
+  padding-left: 18px;
+}
+
+.helpSteps li + li {
+  margin-top: 2px;
+}
+
+.helpActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.helpPrimary,
+.helpSecondary,
+.helpDismiss {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.helpPrimary {
+  border: 0;
+  background: var(--ink);
+  color: var(--surface);
+}
+
+.helpSecondary,
+.helpDismiss {
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+}

@@ -27,3 +27,7 @@ export const canDecideFrom = (status: AdmissionStatus): boolean =>
 /** needs_more_info is requested from an in-review application. */
 export const canRequestMoreInfoFrom = (status: AdmissionStatus): boolean =>
   status === "under_review";
+
+/** needs_more_info -> submitted after the applicant provides the requested update. */
+export const canResubmitFrom = (status: AdmissionStatus): boolean =>
+  status === "needs_more_info";

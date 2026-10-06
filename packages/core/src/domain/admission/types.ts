@@ -64,6 +64,13 @@ export interface SubmitApplicationCommand {
   readonly idempotencyKey: string;
 }
 
+export interface ResubmitApplicationCommand {
+  readonly applicantId: string;
+  readonly applicationId: string;
+  readonly applicantStatement?: string;
+  readonly idempotencyKey: string;
+}
+
 export interface StartReviewCommand {
   readonly actor: Actor;
   readonly applicationId: string;

@@ -21,6 +21,7 @@ export type {
   AdmissionApplication,
   AdmissionReasonCode,
   AdmissionStatus,
+  ResubmitApplicationCommand,
   ReviewDecisionCommand,
   StartReviewCommand,
   SubmitApplicationCommand,
@@ -29,6 +30,7 @@ export {
   POLICY_VERSION,
   canDecideFrom,
   canRequestMoreInfoFrom,
+  canResubmitFrom,
   canReview,
   canStartReviewFrom,
 } from "./domain/admission/admission-policy";
@@ -74,6 +76,7 @@ export type {
   AdmissionRepository,
   ApproveOutcome,
   DecisionTxInput,
+  ResubmitApplicationTxInput,
   ReviewQueueQuery,
   StartReviewTxInput,
   SubmitApplicationTxInput,
