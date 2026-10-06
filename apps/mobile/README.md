@@ -50,13 +50,13 @@ pnpm ios            # Mac: iOS 시뮬레이터에서 열기 (Xcode 필요)
 
 Expo Go는 SDK 57을 지원하는 최신 버전이어야 한다. 이 앱은 Expo Go에 포함된 모듈만 쓰므로 개발 빌드 없이도 실행된다.
 
-### 개발 빌드(dev client)
+### 개발 빌드(시뮬레이터)
 
 ```bash
 npm i -g eas-cli
 eas login                      # JunTae 본인 계정
-eas init                       # 프로젝트 ID 발급 → EAS_PROJECT_ID
-eas build -p ios --profile development   # 시뮬레이터용 빌드
+eas init                       # 프로젝트 ID 발급 → extra.eas.projectId 또는 EAS_PROJECT_ID
+eas build -p ios --profile development   # 시뮬레이터용 Debug 빌드(expo-dev-client 없음, Metro에 연결)
 ```
 
 ## TestFlight / App Store
@@ -67,7 +67,10 @@ eas build -p ios --profile production    # 스토어용(빌드 번호 자동 증
 eas submit -p ios --profile production   # App Store Connect 업로드 → TestFlight
 ```
 
-`eas.json`의 `submit.production.ios` 값(`appleId`, `ascAppId`, `appleTeamId`)은 **자리표시자**다. 실제 값으로 바꾸거나 `eas submit` 대화형 입력을 쓴다.
+`eas.json` 프로필: `base`(Node 24.19.0, pnpm 11.1.3) → `development`(시뮬레이터 Debug) / `preview`(내부 배포 Release) / `production`(store, 빌드 번호 원격 자동 증가). 각 프로필은 같은 이름의 EAS 환경 변수(`eas env:create --environment …`)를 쓴다.
+`submit.production.ios`에는 `language: "ko"`만 있다. App Store Connect 앱 레코드를 만든 뒤 `ascAppId`(숫자)와 `appleTeamId`를 추가하거나 `eas submit` 대화형 입력을 쓴다.
+
+**전체 제출 절차·메타데이터·App Privacy 답변·소유자 전용 단계: [`docs/store/APP_STORE_SUBMISSION.md`](../../docs/store/APP_STORE_SUBMISSION.md).**
 
 ## App Store 제출 체크리스트
 
@@ -75,9 +78,11 @@ eas submit -p ios --profile production   # App Store Connect 업로드 → TestF
 - [x] 앱 내 계정 삭제 (설정 → 계정 삭제 → `DELETE /api/account` → 로그아웃) — 프로덕션 DB에 0014 마이그레이션 적용 필요
 - [x] UGC 신고/차단 (게시글·댓글·멤버) — `POST /api/reports`(사유 선택 + 선택 설명), `/api/blocks`(서버 저장·서버 필터) / 운영자 처리 루틴(`/admin/reports`) 필요
 - [ ] 심사용 데모 계정(활성 멤버 1개) + 리뷰 노트(아이디/비밀번호, 입장 절차 설명)
-- [ ] App Privacy 설문(수집: 아이디, 게시글/댓글, 입장 신청 내용 / 추적 없음)
-- [ ] 스크린샷(6.9"·6.5" iPhone), 앱 설명, 지원 URL, 연령 등급(UGC 포함)
-- [ ] 수출 규정: `ITSAppUsesNonExemptEncryption=false` 설정됨(HTTPS만 사용)
+- [ ] App Privacy 설문(수집: 아이디·멤버 번호[User ID], 게시글/댓글·입장 신청 내용·신고 설명[Other User Content], 역할·멤버십 상태·투표 참여 여부(찬반 아님)·차단 목록·신고 처리 상태[Other Data Types] / 모두 사용자 연결·앱 기능 목적 / 추적 없음) — 답변표와 `ios.privacyManifests`(PrivacyInfo.xcprivacy)는 `docs/store/APP_STORE_SUBMISSION.md` §4·§1.1
+- [x] 권한 문구 없음(카메라·마이크·사진·위치·알림·Face ID 미사용 — `expo-secure-store`의 기본 Face ID 문구도 제거), ATS 임의 HTTP 금지
+- [ ] 스크린샷(iPhone 6.3" 1206×2622 또는 1179×2556 **필수**, 6.9" 1320×2868 권장, iPad 불필요 — 제출 문서 §7), 앱 설명, 지원 URL, 연령 등급(UGC 포함)
+- [x] 앱 화면의 "프리알파" 배지 제거(가이드라인 2.2). 웹 `/terms` 제8조 "프리알파 고지"는 별도 결정
+- [x] 수출 규정: `ITSAppUsesNonExemptEncryption=false` 설정됨(HTTPS만 사용)
 - [ ] 이용약관(`/terms`) 법률 검토
 
 ## Known BLOCKERS
