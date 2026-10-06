@@ -6,7 +6,7 @@ import { useAuth } from "../auth/auth-provider";
 import { appConfig, termsUrl } from "../config";
 import { useBlocks } from "../lib/block-store";
 import { openExternal } from "../lib/links";
-import { Badge, Body, Button, Card, ListRow, Message, SectionTitle, styles } from "../ui/components";
+import { Body, Button, Card, ListRow, Message, SectionTitle, styles } from "../ui/components";
 
 export function SettingsContent() {
   const { api, signOut, expireSession } = useAuth();
@@ -125,7 +125,6 @@ export function SettingsContent() {
         <ListRow
           title="앱 정보 / 버전"
           description={`SoulBound ${Constants.expoConfig?.version ?? ""}`}
-          trailing={<Badge label="프리알파" />}
         />
         <Text style={styles.muted}>Persona Clip 녹화와 알림은 iPhone 앱에서 제공하지 않습니다.</Text>
       </Card>

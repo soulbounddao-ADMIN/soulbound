@@ -78,9 +78,10 @@ eas submit -p ios --profile production   # App Store Connect 업로드 → TestF
 - [x] 앱 내 계정 삭제 (설정 → 계정 삭제 → `DELETE /api/account` → 로그아웃) — 프로덕션 DB에 0014 마이그레이션 적용 필요
 - [x] UGC 신고/차단 (게시글·댓글·멤버) — `POST /api/reports`(사유 선택 + 선택 설명), `/api/blocks`(서버 저장·서버 필터) / 운영자 처리 루틴(`/admin/reports`) 필요
 - [ ] 심사용 데모 계정(활성 멤버 1개) + 리뷰 노트(아이디/비밀번호, 입장 절차 설명)
-- [ ] App Privacy 설문(수집: 아이디, 게시글/댓글, 입장 신청 내용 / 추적 없음) — 답변표와 `ios.privacyManifests`(PrivacyInfo.xcprivacy)는 `docs/store/APP_STORE_SUBMISSION.md` §4·§1.1
+- [ ] App Privacy 설문(수집: 아이디·멤버 번호[User ID], 게시글/댓글·입장 신청 내용·신고 설명[Other User Content], 역할·멤버십 상태·투표 참여 여부(찬반 아님)·차단 목록·신고 처리 상태[Other Data Types] / 모두 사용자 연결·앱 기능 목적 / 추적 없음) — 답변표와 `ios.privacyManifests`(PrivacyInfo.xcprivacy)는 `docs/store/APP_STORE_SUBMISSION.md` §4·§1.1
 - [x] 권한 문구 없음(카메라·마이크·사진·위치·알림·Face ID 미사용 — `expo-secure-store`의 기본 Face ID 문구도 제거), ATS 임의 HTTP 금지
-- [ ] 스크린샷(6.9"·6.5" iPhone), 앱 설명, 지원 URL, 연령 등급(UGC 포함)
+- [ ] 스크린샷(iPhone 6.3" 1206×2622 또는 1179×2556 **필수**, 6.9" 1320×2868 권장, iPad 불필요 — 제출 문서 §7), 앱 설명, 지원 URL, 연령 등급(UGC 포함)
+- [x] 앱 화면의 "프리알파" 배지 제거(가이드라인 2.2). 웹 `/terms` 제8조 "프리알파 고지"는 별도 결정
 - [x] 수출 규정: `ITSAppUsesNonExemptEncryption=false` 설정됨(HTTPS만 사용)
 - [ ] 이용약관(`/terms`) 법률 검토
 
